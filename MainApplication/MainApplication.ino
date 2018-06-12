@@ -1,21 +1,32 @@
 #include <Arduino.h>
 
+//global debug flag
+#define DEBUG
+
+//pin configuration
 #define FRONT_SENSOR_TRIGGER_PIN   11
 #define FRONT_SENSOR_ECHO_PIN      10
-#define MAX_DISTANCE_FRONT         200
+//sensor specifications
+#define SENSOR_MAX_DISTANCE        450
+#define SENSOR_MIN_DISTANCE        2
+//sonic speed in centimeter/microsecond
 #define SONIC_SPEED                0.0343
 
-void setup() {
-  //Serial.begin(9600);                         
+void setup() {                       
   pinMode(FRONT_SENSOR_TRIGGER_PIN, OUTPUT);              
   pinMode(FRONT_SENSOR_ECHO_PIN, INPUT);               
-  //Serial.println("Setup finished");
+  #ifdef DEBUG
+  Serial.begin(9600);  
+  Serial.println("Setup finished");
+  #endif
 }
 
 void loop() {
   //distance is measured in centimeter
   int distance = getDistance();
-  //Serial.println("Measured distance: "+ distance);
+  #ifdef DEBUG
+  Serial.println("Measured distance: "+ distance);
+  #endif
   //wait one second
   delay(1000);
 }
@@ -31,7 +42,8 @@ int getDistance() {
   digitalWrite(FRONT_SENSOR_TRIGGER_PIN, HIGH); 
   delayMicroseconds(10);
   digitalWrite(FRONT_SENSOR_TRIGGER_PIN, LOW);
-  long echoTime = pulseIn(FRONT_SENSOR_ECHO_PIN, HIGH); 
+  //reading echo with a timeout calculated by the max distance of the sensor
+  unsigned long echoTime = pulseIn(FRONT_SENSOR_ECHO_PIN, HIGH, SENSOR_MAX_DISTANCE / SONIC_SPEED); 
   interrupts();
 
   echoTime = (echoTime / 2); 
