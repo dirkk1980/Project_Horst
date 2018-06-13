@@ -1,6 +1,5 @@
-#include <Ultrasonic.h>
-
 #include <Arduino.h>
+#include <Ultrasonic.h>
 
 //global debug flag
 #define DEBUG
@@ -12,7 +11,11 @@
 #define SENSOR_MAX_DISTANCE        450
 #define SENSOR_MIN_DISTANCE        2
 
-Ultrasonic frontSensor (FRONT_SENSOR_TRIGGER_PIN,FRONT_SENSOR_ECHO_PIN,SENSOR_MAX_DISTANCE,SENSOR_MIN_DISTANCE);        
+Ultrasonic frontSensor (
+FRONT_SENSOR_TRIGGER_PIN,
+FRONT_SENSOR_ECHO_PIN,
+SENSOR_MAX_DISTANCE,
+SENSOR_MIN_DISTANCE);        
 
 void setup() {                          
   #ifdef DEBUG
