@@ -35,5 +35,14 @@ void loop() {
     Serial.println("----");
   #endif
   //wait one second
+  if (frontSensor.getObstacle(200))
+  {
+    motorController.breakdown();
+    while (frontSensor.getObstacle(200))
+    {
+      motorController.turn(200, motorController.TURN_RIGHT, 1);
+    }
+  }
+  motorController.drive(150, motorController.DIRECTION_FORWARD, 10);
   delay(1000);
 }
