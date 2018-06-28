@@ -31,12 +31,11 @@ void setup() {
 }
 
 void loop() {
-  #ifdef DEBUG
-    Serial.println("----");
-  #endif
-  //wait one second
   if (frontSensor.getObstacle(200))
   {
+    #ifdef DEBUG
+      Serial.println("obstacle found. breaking down now");
+    #endif
     motorController.breakdown();
     while (frontSensor.getObstacle(200))
     {
@@ -44,5 +43,4 @@ void loop() {
     }
   }
   motorController.drive(150, motorController.DIRECTION_FORWARD, 10);
-  delay(1000);
 }
